@@ -25,19 +25,26 @@ function saveToDB(data) {
 // =========== Promise Chaining ================
 
 saveToDB("Hello world")
-    .then(() =>{
+    .then((result) =>{
         console.log("data 1 was saved "); 
+        console.log("result of promise :",result);
+        
         return saveToDB("This is statement 2")
     })
-    .then(()=>{
+    .then((result)=>{
         console.log("data 2 was saved");
+        console.log("result of promise :",result);
+        
         return saveToDB("this is statement 3")    
     })
-    .then(()=> {
+    .then((result)=> {
         console.log("data three was saved");
+        console.log("result of promise :",result);
     }
     )
-    .catch(() =>{
+    .catch((error) =>{
         console.log("promise was rejected");
+        console.log("error of promise :", error);
+        
         
     })
