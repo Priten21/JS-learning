@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Shortener</title>
+</head>
+<body>
+
+<h1>URL Shortener</h1>
+
+<form method="POST" action="/url">
+  <input type="text" name="url" placeholder="https://example.com" required />
+  <button type="submit">Generate</button>
+</form>
+
+<hr/>
+
+<h2>Stored URLs</h2>
+
+<% if (urls && urls.length > 0) { %>
+<table border="1" cellpadding="5">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Short URL</th>
+      <th>Original URL</th>
+      <th>Clicks</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% urls.forEach((u, index) => { %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td>
+          <a href="/url/<%= u.shortId %>" target="_blank">
+            <%= u.shortId %>
+          </a>
+        </td>
+        <td><%= u.redirectURL %></td>
+        <td><%= u.visitHistory.length %></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+<% } else { %>
+  <p>No URLs yet</p>
+<% } %>
+
+</body>
+</html>
