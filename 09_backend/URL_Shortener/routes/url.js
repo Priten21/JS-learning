@@ -2,11 +2,12 @@ const express = require("express");
 const router = express.Router();
 const UrlModel = require("../models/url");
 const { handleGenerateNewShortURL } = require("../controllers/url");
+const { requireLogin } = require("../middlewares/auth");
 
-// create short url
-router.post("/", handleGenerateNewShortURL);
 
-// redirect (MUST BE LAST)
+router.post("/", requireLogin, handleGenerateNewShortURL);
+
+
 router.get("/:shortId", async (req, res) => {
   try {
     const { shortId } = req.params;
