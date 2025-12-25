@@ -6,18 +6,11 @@ const {
   handleLogout,
 } = require("../controllers/auth");
 
-router.get("/signup", (req, res) => {
-  res.render("signup");
-});
-
-router.post("/signup", handleSignup);
-
-router.get("/login", (req, res) => {
-  res.render("login");
-});
+router.get("/login", (req, res) => res.render("login"));
+router.get("/signup", (req, res) => res.render("signup"));
 
 router.post("/login", handleLogin);
-
-router.get("/logout", handleLogout);
+router.post("/signup", handleSignup);
+router.post("/logout", handleLogout);
 
 module.exports = router;

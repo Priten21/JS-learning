@@ -1,32 +1,20 @@
 const express = require("express");
 const router = express.Router();
+
 const UrlModel = require("../models/url");
 const { handleGenerateNewShortURL } = require("../controllers/url");
 const { requireLogin } = require("../middlewares/auth");
 
-
 router.post("/", requireLogin, handleGenerateNewShortURL);
 
-
 router.get("/:shortId", async (req, res) => {
-  try {
-    const { shortId } = req.params;
+  const entry = await UrlModel.findOneAndUpdate(
+    { shortId: req.params.shortId },
+    { $push: { visitHistory: { timestamp: Date.now() } } }
+  );
 
-    const entry = await UrlModel.findOneAndUpdate(
-      { shortId },
-      { $push: { visitHistory: { timestamp: Date.now() } } },
-      { new: true }
-    );
-
-    if (!entry) {
-      return res.status(404).send("Short URL not found");
-    }
-
-    return res.redirect(entry.redirectURL);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).send("Server Error");
-  }
+  if (!entry) return res.status(404).send("Not Found");
+  res.redirect(entry.redirectURL);
 });
 
 module.exports = router;
